@@ -57,6 +57,24 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+```bash
+# install typeorm
+npm install @nestjs/typeorm typeorm pg
+
+# install swagger
+npm install @nestjs/swagger swagger-ui-express
+
+# install validator
+npm install class-validator class-transformer
+
+# install jwt
+npm install @nestjs/jwt bcryptjs
+npm install -D @types/passport-jwt
+
+# install config
+npm install @nestjs/config
+```
+
 ## Deployment
 
 When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
