@@ -1,0 +1,64 @@
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { RoomEntity } from '../entity/room.entity';
+
+export class RoomResponseDto {
+  constructor(room: RoomEntity) {
+    this.id = room.id;
+    this.name = room.name;
+    this.nameEn = room.nameEn;
+    this.code = room.code;
+    this.description = room.description ?? undefined;
+    this.descriptionEn = room.descriptionEn ?? undefined;
+    this.createdAt = room.createdAt;
+    this.updatedAt = room.updatedAt ?? undefined;
+  }
+
+  @ApiProperty({
+    description: 'Room ID',
+    example: '550e8400-e29b-41d4-a716-446655440000',
+  })
+  id: string;
+
+  @ApiProperty({
+    description: 'Room name in Vietnamese',
+    example: 'Phòng Tranh Dân Gian',
+  })
+  name: string;
+
+  @ApiProperty({
+    description: 'Room name in English',
+    example: 'Folk Painting Room',
+  })
+  nameEn: string;
+
+  @ApiProperty({
+    description: 'Unique room code',
+    example: 'FOLK-PAINT',
+  })
+  code: string;
+
+  @ApiPropertyOptional({
+    description: 'Optional room description',
+    example:
+      'Trưng bày những bức tranh dân gian tiêu biểu của miền Nam Việt Nam.',
+  })
+  description?: string;
+
+  @ApiPropertyOptional({
+    description: 'Optional room description in English',
+    example: 'Showcases iconic Southern Vietnamese folk paintings.',
+  })
+  descriptionEn?: string;
+
+  @ApiProperty({
+    description: 'Created timestamp',
+    example: '2026-04-26T09:15:00.000Z',
+  })
+  createdAt: Date;
+
+  @ApiPropertyOptional({
+    description: 'Last updated timestamp',
+    example: '2026-04-26T10:40:00.000Z',
+  })
+  updatedAt?: Date;
+}
