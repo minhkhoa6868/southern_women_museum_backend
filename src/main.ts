@@ -28,6 +28,8 @@ async function bootstrap() {
     .addBearerAuth()
     .addSecurityRequirements('bearer')
     .addTag('health', 'Health check endpoints')
+    .addTag('artifacts', 'Artifact management endpoints')
+    .addTag('rooms', 'Room management endpoints')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
