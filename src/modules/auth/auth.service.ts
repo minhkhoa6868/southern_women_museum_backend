@@ -27,12 +27,13 @@ export class AuthService {
     const user = this.userRepository.create({
       firstName: first_name,
       lastName: last_name,
-      email,
-      phone,
+      email: email,
+      phone: phone,
       passwordHash: hashedPassword,
     });
 
     await this.userRepository.save(user);
+
     return { message: 'User registered successfully' };
   }
 
@@ -53,5 +54,15 @@ export class AuthService {
     return {
       access_token: this.jwtService.sign(payload),
     };
+  }
+
+  async updateProfile(userId: string, updateData: Partial<User>): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    Object.assign(user, updateData);
+    return this.userRepository.save(user);
   }
 }
