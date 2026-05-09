@@ -17,7 +17,7 @@ export class User {
   @Column({ name: 'phone', type: 'varchar' })
   phone!: string;
 
-  @Column({ name: 'password_hash', type: 'varchar' })
+  @Column({ name: 'password_hash', type: 'varchar', select: false })
   passwordHash!: string;
 
   @Column({ name: 'is_admin', type: 'bool', default: false })
