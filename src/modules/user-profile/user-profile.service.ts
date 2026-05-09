@@ -22,12 +22,16 @@ export class UserProfileService {
   }
 
   async update(id: string, updateDto: UpdateProfileDto) {
-    const profile = await this.userRepository.findOne({ where: { id } });
-    if (!profile) {
-      throw new NotFoundException('User Profile not found');
-    }
+    const user = await this.userRepository.findOne({ where: { id } });
+    if (!user) throw new NotFoundException('User not found');
 
-    await this.userRepository.update(profile.id, updateDto);
+    await this.userRepository.update(id, {
+      firstName: updateDto.first_name,
+      lastName: updateDto.last_name,
+      language: updateDto.language,
+      isNotificationEnabled: updateDto.is_notification_enabled,
+    });
+
     return this.getProfile(id);
   }
 }

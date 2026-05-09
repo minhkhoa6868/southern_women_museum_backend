@@ -55,4 +55,14 @@ export class AuthService {
       access_token: this.jwtService.sign(payload),
     };
   }
+
+  async updateProfile(userId: string, updateData: Partial<User>): Promise<User> {
+    const user = await this.userRepository.findOne({ where: { id: userId } });
+    if (!user) {
+      throw new UnauthorizedException('User not found');
+    }
+
+    Object.assign(user, updateData);
+    return this.userRepository.save(user);
+  }
 }
