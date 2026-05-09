@@ -66,14 +66,14 @@ export class ArtifactResponseDto {
   historyDate?: Date;
 
   @ApiPropertyOptional({
-    description: 'X-axis position on map/layout',
-    example: 105.83416,
+    description: 'Normalized X coordinate inside room map frame (0.0 - 1.0)',
+    example: 0.42,
   })
   positionX?: number;
 
   @ApiPropertyOptional({
-    description: 'Y-axis position on map/layout',
-    example: 21.027764,
+    description: 'Normalized Y coordinate inside room map frame (0.0 - 1.0)',
+    example: 0.28,
   })
   positionY?: number;
 

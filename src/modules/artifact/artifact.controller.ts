@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -30,7 +31,9 @@ import { ArtifactPaginationRequestDto } from './dto/artifact-pagination-request.
 import { ArtifactResponseDto } from './dto/artifact-response.dto';
 import { CreateArtifactRequestDto } from './dto/create-artifact-request.dto';
 import { UpdateArtifactRequestDto } from './dto/update-artifact-request.dto';
+import { UpdateArtifactPositionRequestDto } from './dto/update-artifact-position-request.dto';
 import { ArtifactDetailRequestDto } from './dto/artifact-detail-request.dto';
+import { AdminGuard } from '../auth/admin.guard';
 
 @ApiTags('artifacts')
 @ApiExtraModels(PaginationResponseDto, ArtifactResponseDto)
@@ -104,6 +107,24 @@ export class ArtifactController {
     @Body() payload: UpdateArtifactRequestDto,
   ): Promise<ArtifactResponseDto> {
     return this.artifactService.update(requestIdDto, payload);
+  }
+
+  @Patch(':id/position')
+  @UseGuards(AdminGuard)
+  @ApiOperation({ summary: 'Update artifact position only' })
+  @ApiParam({
+    name: 'id',
+    description: 'Artifact ID (UUID)',
+    example: '550e8400-e29b-41d4-a716-446655440000',
+  })
+  @ApiOkResponse({ type: ArtifactResponseDto })
+  @ApiBadRequestResponse({ description: 'Invalid artifact position payload' })
+  @ApiNotFoundResponse({ description: 'Artifact not found' })
+  updatePosition(
+    @Param() requestIdDto: RequestIdDto,
+    @Body() payload: UpdateArtifactPositionRequestDto,
+  ): Promise<ArtifactResponseDto> {
+    return this.artifactService.updatePosition(requestIdDto, payload);
   }
 
   @Delete()

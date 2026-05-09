@@ -9,6 +9,7 @@ import { ArtifactPaginationRequestDto } from './dto/artifact-pagination-request.
 import { ArtifactResponseDto } from './dto/artifact-response.dto';
 import { CreateArtifactRequestDto } from './dto/create-artifact-request.dto';
 import { UpdateArtifactRequestDto } from './dto/update-artifact-request.dto';
+import { UpdateArtifactPositionRequestDto } from './dto/update-artifact-position-request.dto';
 import { ArtifactEntity } from './entity/artifact.entity';
 import { RoomEntity } from '../room/entity/room.entity';
 import { DeleteResponseDto } from 'src/core/dto/delete-response.dto';
@@ -121,6 +122,24 @@ export class ArtifactService {
       this.handlePersistenceError(error);
       throw error;
     }
+  }
+
+  async updatePosition(
+    requestIdDto: RequestIdDto,
+    payload: UpdateArtifactPositionRequestDto,
+  ): Promise<ArtifactResponseDto> {
+    const artifact = await this.artifactRepository.findOneBy({
+      id: requestIdDto.id,
+    });
+
+    if (!artifact) {
+      throw new DataNotFoundException('Artifact not found');
+    }
+
+    const mergedArtifact = this.artifactRepository.merge(artifact, payload);
+    const updatedArtifact = await this.artifactRepository.save(mergedArtifact);
+
+    return new ArtifactResponseDto(updatedArtifact);
   }
 
   async delete(requestIdsDto: RequestIdsDto): Promise<DeleteResponseDto> {
