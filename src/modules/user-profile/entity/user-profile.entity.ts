@@ -1,3 +1,2 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
-import { User } from '../../auth/entity/user.entity';
-
+// UserProfile data is stored directly on the User entity (src/modules/auth/entity/user.entity.ts).
+// This file is intentionally unused.
