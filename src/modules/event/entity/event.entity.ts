@@ -14,15 +14,15 @@ export class Event {
   @Column()
   date!: string;
 
-  @Column({ nullable: true })
+  @Column({ name: 'image_url', nullable: true })
   imageUrl?: string;
 
-  @Column({ default: 'active' })
+  @Column({ default: 'active', nullable: true })
   status?: string;
 
-  @CreateDateColumn()
-  createdAt!: Date;
+  @CreateDateColumn({ name: 'created_at', type: 'timestamptz', nullable: true })
+  createdAt?: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ name: 'updated_at', type: 'timestamptz', nullable: true })
   updatedAt?: Date;
 }

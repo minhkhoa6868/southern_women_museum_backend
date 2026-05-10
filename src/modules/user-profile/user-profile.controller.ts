@@ -3,7 +3,7 @@ import { UserProfileService } from './user-profile.service';
 import { UpdateProfileDto } from './dto/update-profile.dto';
 import { JwtAuthGuard } from 'src/core/guards';
 
-@Controller('profile')
+@Controller('api/profile')
 @UseGuards(JwtAuthGuard)
 export class UserProfileController {
   constructor(private readonly userProfileService: UserProfileService) {}

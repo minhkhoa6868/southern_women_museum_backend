@@ -8,7 +8,6 @@ async function bootstrap() {
 
   // enable CORS for all origins (you can customize this for production)
   app.enableCors();
-  app.setGlobalPrefix('api')
 
   // Setup validation pipe for DTOs
   app.useGlobalPipes(
@@ -29,8 +28,6 @@ async function bootstrap() {
     .addBearerAuth()
     .addSecurityRequirements('bearer')
     .addTag('health', 'Health check endpoints')
-    .addTag('artifacts', 'Artifact management endpoints')
-    .addTag('rooms', 'Room management endpoints')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

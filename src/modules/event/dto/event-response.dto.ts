@@ -1,33 +1,28 @@
-// src/modules/events/dto/create-event.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsOptional, IsUrl } from 'class-validator';
 
-export class CreateEventDto {
+export class EventResponseDto {
+  @ApiProperty({
+    description: 'Event unique identifier',
+    example: '123e4567-e89b-12d3-a456-426614174000',
+  })
+  id!: string;
+
   @ApiProperty({
     description: 'Event title',
     example: 'Summer Exhibition 2024',
-    required: true,
   })
-  @IsString()
-  @IsNotEmpty()
   title!: string;
 
   @ApiProperty({
     description: 'Event description',
-    example: 'Join us for an amazing summer exhibition featuring local artists',
-    required: true,
+    example: 'Join us for an amazing summer exhibition',
   })
-  @IsString()
-  @IsNotEmpty()
   description!: string;
 
   @ApiProperty({
     description: 'Event date',
     example: '2024-06-15',
-    required: true,
   })
-  @IsString()
-  @IsNotEmpty()
   date!: string;
 
   @ApiProperty({
@@ -35,18 +30,24 @@ export class CreateEventDto {
     example: 'https://example.com/images/event.jpg',
     required: false,
   })
-  @IsUrl()
-  @IsOptional()
   image_url?: string;
 
   @ApiProperty({
     description: 'Event status',
     example: 'active',
     enum: ['active', 'inactive', 'ended'],
-    default: 'active',
-    required: false,
   })
-  @IsString()
-  @IsOptional()
   status?: string;
+
+  @ApiProperty({
+    description: 'Creation timestamp',
+    example: '2024-01-01T00:00:00.000Z',
+  })
+  createdAt!: Date;
+
+  @ApiProperty({
+    description: 'Last update timestamp',
+    example: '2024-01-01T00:00:00.000Z',
+  })
+  updatedAt?: Date;
 }
