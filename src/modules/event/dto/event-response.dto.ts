@@ -1,4 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Event } from '../entity/event.entity';
+import { EventStatus } from '../entity/event.entity';
 
 export class EventResponseDto {
   @ApiProperty({
@@ -7,10 +9,7 @@ export class EventResponseDto {
   })
   id!: string;
 
-  @ApiProperty({
-    description: 'Event title',
-    example: 'Summer Exhibition 2024',
-  })
+  @ApiProperty({ description: 'Event title', example: 'Summer Exhibition 2024' })
   title!: string;
 
   @ApiProperty({
@@ -19,10 +18,7 @@ export class EventResponseDto {
   })
   description!: string;
 
-  @ApiProperty({
-    description: 'Event date',
-    example: '2024-06-15',
-  })
+  @ApiProperty({ description: 'Event date', example: '2024-06-15' })
   date!: string;
 
   @ApiProperty({
@@ -30,24 +26,29 @@ export class EventResponseDto {
     example: 'https://example.com/images/event.jpg',
     required: false,
   })
-  image_url?: string;
+  imageUrl?: string;
 
   @ApiProperty({
     description: 'Event status',
     example: 'active',
-    enum: ['active', 'inactive', 'ended'],
+    enum: EventStatus,
   })
-  status?: string;
+  status?: EventStatus;
 
-  @ApiProperty({
-    description: 'Creation timestamp',
-    example: '2024-01-01T00:00:00.000Z',
-  })
+  @ApiProperty({ description: 'Creation timestamp', example: '2024-01-01T00:00:00.000Z' })
   createdAt!: Date;
 
-  @ApiProperty({
-    description: 'Last update timestamp',
-    example: '2024-01-01T00:00:00.000Z',
-  })
+  @ApiProperty({ description: 'Last update timestamp', example: '2024-01-01T00:00:00.000Z' })
   updatedAt?: Date;
+
+  constructor(event: Event) {
+    this.id = event.id;
+    this.title = event.title;
+    this.description = event.description;
+    this.date = event.date;
+    this.imageUrl = event.imageUrl;
+    this.status = event.status;
+    this.createdAt = event.createdAt!;
+    this.updatedAt = event.updatedAt;
+  }
 }

@@ -1,5 +1,11 @@
 import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
+export enum EventStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  ENDED = 'ended',
+}
+
 @Entity('events')
 export class Event {
   @PrimaryGeneratedColumn('uuid')
@@ -17,8 +23,8 @@ export class Event {
   @Column({ name: 'image_url', nullable: true })
   imageUrl?: string;
 
-  @Column({ default: 'active', nullable: true })
-  status?: string;
+  @Column({ type: 'varchar', default: EventStatus.ACTIVE, nullable: true })
+  status?: EventStatus;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz', nullable: true })
   createdAt?: Date;

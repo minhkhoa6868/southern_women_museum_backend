@@ -1,6 +1,7 @@
 // src/modules/events/dto/create-event.dto.ts
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty, IsOptional, IsUrl } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsUrl, IsEnum } from 'class-validator';
+import { EventStatus } from '../entity/event.entity';
 
 export class CreateEventDto {
   @ApiProperty({
@@ -37,16 +38,16 @@ export class CreateEventDto {
   })
   @IsUrl()
   @IsOptional()
-  image_url?: string;
+  imageUrl?: string;
 
   @ApiProperty({
     description: 'Event status',
-    example: 'active',
-    enum: ['active', 'inactive', 'ended'],
-    default: 'active',
+    example: EventStatus.ACTIVE,
+    enum: EventStatus,
+    default: EventStatus.ACTIVE,
     required: false,
   })
-  @IsString()
+  @IsEnum(EventStatus)
   @IsOptional()
-  status?: string;
+  status?: EventStatus;
 }
