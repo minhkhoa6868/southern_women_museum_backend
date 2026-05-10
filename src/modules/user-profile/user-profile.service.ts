@@ -28,6 +28,8 @@ export class UserProfileService {
     await this.userRepository.update(id, {
       firstName: updateDto.first_name,
       lastName: updateDto.last_name,
+      phone: updateDto.phone,
+      email: updateDto.email,
       language: updateDto.language,
       isNotificationEnabled: updateDto.is_notification_enabled,
     });

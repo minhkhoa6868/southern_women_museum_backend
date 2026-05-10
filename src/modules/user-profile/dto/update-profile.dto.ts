@@ -16,4 +16,12 @@ export class UpdateProfileDto {
   @IsBoolean()
   @IsOptional()
   is_notification_enabled?: boolean;
+
+  @IsString()
+  @IsOptional()
+  phone?: string;
+
+  @IsString()
+  @IsOptional()
+  email?: string;
 }

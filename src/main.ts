@@ -8,6 +8,7 @@ async function bootstrap() {
 
   // enable CORS for all origins (you can customize this for production)
   app.enableCors();
+  app.setGlobalPrefix('api')
 
   // Setup validation pipe for DTOs
   app.useGlobalPipes(
