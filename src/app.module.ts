@@ -6,6 +6,7 @@ import { ArtifactModule } from './modules/artifact/artifact.module';
 import { RoomModule } from './modules/room/room.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserProfileModule } from './modules/user-profile/user-profile.module';
+import { EventsModule } from './modules/event/event.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { UserProfileModule } from './modules/user-profile/user-profile.module';
     RoomModule,
     AuthModule,
     UserProfileModule,
+    EventsModule,
   ],
 })
 export class AppModule {}

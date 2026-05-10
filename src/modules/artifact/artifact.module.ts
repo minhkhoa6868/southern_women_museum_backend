@@ -4,9 +4,10 @@ import { ArtifactController } from './artifact.controller';
 import { ArtifactService } from './artifact.service';
 import { ArtifactEntity } from './entity/artifact.entity';
 import { RoomEntity } from '../room/entity/room.entity';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([ArtifactEntity, RoomEntity])],
+  imports: [TypeOrmModule.forFeature([ArtifactEntity, RoomEntity]), AuthModule],
   controllers: [ArtifactController],
   providers: [ArtifactService],
   exports: [ArtifactService],

@@ -33,7 +33,7 @@ import { CreateArtifactRequestDto } from './dto/create-artifact-request.dto';
 import { UpdateArtifactRequestDto } from './dto/update-artifact-request.dto';
 import { UpdateArtifactPositionRequestDto } from './dto/update-artifact-position-request.dto';
 import { ArtifactDetailRequestDto } from './dto/artifact-detail-request.dto';
-import { AdminGuard } from '../auth/admin.guard';
+import { AdminGuard } from 'src/core/guards';
 
 @ApiTags('artifacts')
 @ApiExtraModels(PaginationResponseDto, ArtifactResponseDto)
