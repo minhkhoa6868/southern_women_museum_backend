@@ -17,10 +17,11 @@ import { JwtAuthGuard, AdminGuard } from 'src/core/guards';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('JWT_SECRET') || 'default_secret',
-        signOptions: { expiresIn: '1h' },
-      }),
+      useFactory: (config: ConfigService) => {
+        const secret = config.get<string>('JWT_SECRET');
+        if (!secret) throw new Error('JWT_SECRET environment variable is not set');
+        return { secret, signOptions: { expiresIn: '1h' } };
+      },
     }),
   ],
   providers: [AuthService, JwtStrategy, JwtAuthGuard, AdminGuard],
