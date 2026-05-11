@@ -7,7 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entity/user.entity';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './jwt.strategy';
-import { AdminGuard } from './admin.guard';
+import { JwtAuthGuard, AdminGuard } from 'src/core/guards';
 
 @Module({
   imports: [
@@ -17,14 +17,15 @@ import { AdminGuard } from './admin.guard';
     JwtModule.registerAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        secret: config.get<string>('JWT_SECRET') || 'default_secret',
-        signOptions: { expiresIn: '1h' },
-      }),
+      useFactory: (config: ConfigService) => {
+        const secret = config.get<string>('JWT_SECRET');
+        if (!secret) throw new Error('JWT_SECRET environment variable is not set');
+        return { secret, signOptions: { expiresIn: '1h' } };
+      },
     }),
   ],
-  providers: [AuthService, JwtStrategy, AdminGuard],
+  providers: [AuthService, JwtStrategy, JwtAuthGuard, AdminGuard],
   controllers: [AuthController],
-  exports: [AdminGuard],
+  exports: [AuthService, JwtStrategy, JwtAuthGuard, AdminGuard],
 })
 export class AuthModule {}

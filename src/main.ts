@@ -6,9 +6,11 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  // enable CORS for all origins (you can customize this for production)
-  app.enableCors();
-  app.setGlobalPrefix('api')
+  app.enableCors({
+    origin: process.env.ALLOWED_ORIGINS?.split(',') ?? '*',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+  });
 
   // Setup validation pipe for DTOs
   app.useGlobalPipes(
@@ -29,8 +31,6 @@ async function bootstrap() {
     .addBearerAuth()
     .addSecurityRequirements('bearer')
     .addTag('health', 'Health check endpoints')
-    .addTag('artifacts', 'Artifact management endpoints')
-    .addTag('rooms', 'Room management endpoints')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
