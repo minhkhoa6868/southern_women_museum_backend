@@ -29,11 +29,12 @@ export class ArtifactResponseDto {
   })
   id: string;
 
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Room ID that artifact belongs to',
     example: '550e8400-e29b-41d4-a716-446655440111',
+    nullable: true,
   })
-  roomId: string;
+  roomId?: string | null;
 
   @ApiPropertyOptional({
     description: 'Room name that artifact belongs to',

@@ -126,10 +126,14 @@ export class ArtifactService {
     const language = this.normalizeLanguage(
       (payload as { language?: string }).language,
     );
-    await this.ensureRoomExists(payload.roomId);
+    if (payload.roomId) {
+      await this.ensureRoomExists(payload.roomId);
+    }
 
     try {
-      const nextOrderNo = await this.getNextOrderNo(payload.roomId);
+      const nextOrderNo = payload.roomId
+        ? await this.getNextOrderNo(payload.roomId)
+        : 1;
       const artifact = this.artifactRepository.create({
         ...payload,
         orderNo: nextOrderNo,

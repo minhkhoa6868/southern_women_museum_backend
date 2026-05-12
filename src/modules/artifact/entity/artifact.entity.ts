@@ -14,10 +14,10 @@ export class ArtifactEntity {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column({ name: 'room_id', type: 'uuid', nullable: false })
-  roomId!: string;
+  @Column({ name: 'room_id', type: 'uuid', nullable: true })
+  roomId?: string | null;
 
-  @ManyToOne(() => RoomEntity, { onUpdate: 'CASCADE', onDelete: 'CASCADE' })
+  @ManyToOne(() => RoomEntity, { onUpdate: 'CASCADE', onDelete: 'CASCADE', nullable: true })
   @JoinColumn({ name: 'room_id' })
   room?: RoomEntity;
 

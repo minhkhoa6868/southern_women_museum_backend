@@ -14,12 +14,14 @@ import {
 import { LanguageRequestDto } from 'src/core/dto/language-request.dto';
 
 export class CreateArtifactRequestDto extends LanguageRequestDto {
-  @ApiProperty({
+  @ApiPropertyOptional({
     description: 'Room ID that the artifact belongs to',
     example: '550e8400-e29b-41d4-a716-446655440000',
+    nullable: true,
   })
+  @IsOptional()
   @IsUUID()
-  roomId!: string;
+  roomId?: string | null;
 
   @ApiProperty({
     description: 'Artifact name in Vietnamese',
