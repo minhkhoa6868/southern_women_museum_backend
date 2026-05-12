@@ -1,8 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsInt, IsUUID, Min } from 'class-validator';
+import { LanguageRequestDto } from 'src/core/dto/language-request.dto';
 
-export class ArtifactDetailRequestDto {
+export class ArtifactDetailRequestDto extends LanguageRequestDto {
   @ApiProperty({
     description: 'The room ID to which the artifact belongs',
     example: '550e8400-e29b-41d4-a716-446655440111',

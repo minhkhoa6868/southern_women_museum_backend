@@ -1,12 +1,18 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { ArtifactEntity } from '../entity/artifact.entity';
+import { SupportedLanguage } from 'src/core/dto/language-request.dto';
 
 export class ArtifactResponseDto {
-  constructor(artifact: ArtifactEntity) {
+  constructor(artifact: ArtifactEntity, language: SupportedLanguage = 'vi') {
     this.id = artifact.id;
     this.roomId = artifact.roomId;
+    this.roomName =
+      language === 'en' ? artifact.room?.nameEn : artifact.room?.name;
     this.name = artifact.name;
-    this.description = artifact.description ?? undefined;
+    this.description =
+      language === 'en'
+        ? (artifact.descriptionEn ?? artifact.description ?? undefined)
+        : (artifact.description ?? undefined);
     this.descriptionEn = artifact.descriptionEn ?? undefined;
     this.orderNo = artifact.orderNo;
     this.imgUrl = artifact.imgUrl ?? undefined;
@@ -28,6 +34,12 @@ export class ArtifactResponseDto {
     example: '550e8400-e29b-41d4-a716-446655440111',
   })
   roomId: string;
+
+  @ApiPropertyOptional({
+    description: 'Room name that artifact belongs to',
+    example: 'Phòng Trống Đồng',
+  })
+  roomName?: string;
 
   @ApiProperty({
     description: 'Artifact name in Vietnamese',

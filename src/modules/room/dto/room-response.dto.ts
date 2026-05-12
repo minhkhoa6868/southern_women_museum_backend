@@ -1,14 +1,16 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { RoomEntity } from '../entity/room.entity';
+import { SupportedLanguage } from 'src/core/dto/language-request.dto';
 
 export class RoomResponseDto {
-  constructor(room: RoomEntity) {
+  constructor(room: RoomEntity, language: SupportedLanguage = 'vi') {
     this.id = room.id;
-    this.name = room.name;
-    this.nameEn = room.nameEn;
+    this.name = language === 'en' ? room.nameEn : room.name;
     this.code = room.code;
-    this.description = room.description ?? undefined;
-    this.descriptionEn = room.descriptionEn ?? undefined;
+    this.description =
+      language === 'en'
+        ? (room.descriptionEn ?? room.description ?? undefined)
+        : (room.description ?? undefined);
     this.createdAt = room.createdAt;
     this.updatedAt = room.updatedAt ?? undefined;
   }
@@ -24,12 +26,6 @@ export class RoomResponseDto {
     example: 'Phòng Tranh Dân Gian',
   })
   name: string;
-
-  @ApiProperty({
-    description: 'Room name in English',
-    example: 'Folk Painting Room',
-  })
-  nameEn: string;
 
   @ApiProperty({
     description: 'Unique room code',

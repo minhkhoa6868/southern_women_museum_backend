@@ -1,7 +1,8 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { IsNotEmpty, IsOptional, IsString, MaxLength } from 'class-validator';
+import { LanguageRequestDto } from 'src/core/dto/language-request.dto';
 
-export class CreateRoomRequestDto {
+export class CreateRoomRequestDto extends LanguageRequestDto {
   @ApiProperty({
     description: 'Room name in Vietnamese',
     example: 'Phòng Tranh Dân Gian',

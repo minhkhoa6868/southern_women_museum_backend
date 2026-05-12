@@ -4,6 +4,7 @@ import { PaginationResponseDto } from 'src/core/dto/pagination-response.dto';
 import { RequestIdDto } from 'src/core/dto/request-id.dto';
 import { DataNotFoundException } from 'src/core/exceptions/data-not-found.exception';
 import { QueryFailedError, Repository } from 'typeorm';
+import { SupportedLanguage } from 'src/core/dto/language-request.dto';
 import { CreateRoomRequestDto } from './dto/create-room-request.dto';
 import { RoomPaginationRequestDto } from './dto/room-pagination-request.dto';
 import { RoomResponseDto } from './dto/room-response.dto';
@@ -25,6 +26,9 @@ export class RoomService {
   ): Promise<PaginationResponseDto<RoomResponseDto>> {
     const page = request.page ?? 1;
     const limit = request.limit ?? 10;
+    const language = this.normalizeLanguage(
+      (request as { language?: string }).language,
+    );
 
     const query = this.roomRepository.createQueryBuilder('room');
 
@@ -54,7 +58,7 @@ export class RoomService {
     const [entities, total] = await query.getManyAndCount();
 
     return new PaginationResponseDto(
-      entities.map((entity) => new RoomResponseDto(entity)),
+      entities.map((entity) => new RoomResponseDto(entity, language)),
       total,
       page,
       limit,
@@ -63,21 +67,27 @@ export class RoomService {
   }
 
   async detail(request: RoomDetailRequestDto): Promise<RoomResponseDto> {
+    const language = this.normalizeLanguage(
+      (request as { language?: string }).language,
+    );
     const room = await this.roomRepository.findOneBy({ code: request.code });
 
     if (!room) {
       throw new DataNotFoundException('Room not found');
     }
 
-    return new RoomResponseDto(room);
+    return new RoomResponseDto(room, language);
   }
 
   async create(payload: CreateRoomRequestDto): Promise<RoomResponseDto> {
+    const language = this.normalizeLanguage(
+      (payload as { language?: string }).language,
+    );
     try {
       const room = this.roomRepository.create(payload);
       const savedRoom = await this.roomRepository.save(room);
 
-      return new RoomResponseDto(savedRoom);
+      return new RoomResponseDto(savedRoom, language);
     } catch (error) {
       this.handlePersistenceError(error);
       throw error;
@@ -88,6 +98,9 @@ export class RoomService {
     requestIdDto: RequestIdDto,
     payload: UpdateRoomRequestDto,
   ): Promise<RoomResponseDto> {
+    const language = this.normalizeLanguage(
+      (payload as { language?: string }).language,
+    );
     const room = await this.roomRepository.findOneBy({ id: requestIdDto.id });
 
     if (!room) {
@@ -98,7 +111,7 @@ export class RoomService {
       const mergedRoom = this.roomRepository.merge(room, payload);
       const updatedRoom = await this.roomRepository.save(mergedRoom);
 
-      return new RoomResponseDto(updatedRoom);
+      return new RoomResponseDto(updatedRoom, language);
     } catch (error) {
       this.handlePersistenceError(error);
       throw error;
@@ -125,5 +138,9 @@ export class RoomService {
         throw new ConflictException('Room code already exists');
       }
     }
+  }
+
+  private normalizeLanguage(language?: string): SupportedLanguage {
+    return language === 'en' ? 'en' : 'vi';
   }
 }
