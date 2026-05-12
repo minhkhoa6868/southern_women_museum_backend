@@ -11,8 +11,9 @@ import {
   MaxLength,
   Min,
 } from 'class-validator';
+import { LanguageRequestDto } from 'src/core/dto/language-request.dto';
 
-export class CreateArtifactRequestDto {
+export class CreateArtifactRequestDto extends LanguageRequestDto {
   @ApiProperty({
     description: 'Room ID that the artifact belongs to',
     example: '550e8400-e29b-41d4-a716-446655440000',

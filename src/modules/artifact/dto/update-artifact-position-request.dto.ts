@@ -1,8 +1,9 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
 import { IsNumber, IsOptional, Max, Min } from 'class-validator';
+import { LanguageRequestDto } from 'src/core/dto/language-request.dto';
 
-export class UpdateArtifactPositionRequestDto {
+export class UpdateArtifactPositionRequestDto extends LanguageRequestDto {
   @ApiPropertyOptional({
     description: 'Normalized X coordinate inside room map frame (0.0 - 1.0)',
     example: 0.42,

@@ -34,6 +34,7 @@ import { UpdateArtifactRequestDto } from './dto/update-artifact-request.dto';
 import { UpdateArtifactPositionRequestDto } from './dto/update-artifact-position-request.dto';
 import { ArtifactDetailRequestDto } from './dto/artifact-detail-request.dto';
 import { AdminGuard } from 'src/core/guards';
+import { LanguageRequestDto } from 'src/core/dto/language-request.dto';
 
 @ApiTags('artifacts')
 @ApiExtraModels(PaginationResponseDto, ArtifactResponseDto)
@@ -67,6 +68,14 @@ export class ArtifactController {
     @Body() request: ArtifactPaginationRequestDto,
   ): Promise<PaginationResponseDto<ArtifactResponseDto>> {
     return this.artifactService.paginate(request);
+  }
+
+  @Get('random')
+  @ApiOperation({ summary: 'Get 6 random artifacts' })
+  @ApiOkResponse({ type: ArtifactResponseDto, isArray: true })
+  @ApiBadRequestResponse({ description: 'Invalid language query parameter' })
+  random(@Query() request: LanguageRequestDto): Promise<ArtifactResponseDto[]> {
+    return this.artifactService.getRandomArtifacts(request.language);
   }
 
   @Get()
