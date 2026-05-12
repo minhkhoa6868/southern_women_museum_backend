@@ -11,7 +11,12 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from '@nestjs/swagger';
 import { EventsService } from './event.service';
 import { CreateEventDto } from './dto/create-event.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
@@ -25,14 +30,22 @@ export class EventsController {
 
   @Get()
   @ApiOperation({ summary: 'Get all events (public)' })
-  @ApiResponse({ status: 200, description: 'List of events', type: [EventResponseDto] })
+  @ApiResponse({
+    status: 200,
+    description: 'List of events',
+    type: [EventResponseDto],
+  })
   findAll() {
     return this.eventsService.findAll();
   }
 
   @Get(':id')
   @ApiOperation({ summary: 'Get event by ID (public)' })
-  @ApiResponse({ status: 200, description: 'Event found', type: EventResponseDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Event found',
+    type: EventResponseDto,
+  })
   @ApiResponse({ status: 404, description: 'Event not found' })
   findOne(@Param('id') id: string) {
     return this.eventsService.findOne(id);
@@ -42,7 +55,11 @@ export class EventsController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), AdminGuard)
   @ApiOperation({ summary: 'Create a new event (admin only)' })
-  @ApiResponse({ status: 201, description: 'Event created successfully', type: EventResponseDto })
+  @ApiResponse({
+    status: 201,
+    description: 'Event created successfully',
+    type: EventResponseDto,
+  })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 403, description: 'Forbidden - Admin only' })
   create(@Body() createEventDto: CreateEventDto) {
@@ -53,7 +70,11 @@ export class EventsController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('jwt'), AdminGuard)
   @ApiOperation({ summary: 'Update event by ID (admin only)' })
-  @ApiResponse({ status: 200, description: 'Event updated successfully', type: EventResponseDto })
+  @ApiResponse({
+    status: 200,
+    description: 'Event updated successfully',
+    type: EventResponseDto,
+  })
   @ApiResponse({ status: 404, description: 'Event not found' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 403, description: 'Forbidden - Admin only' })

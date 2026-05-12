@@ -3,7 +3,11 @@ import { ArtifactEntity } from '../entity/artifact.entity';
 import { SupportedLanguage } from 'src/core/dto/language-request.dto';
 
 export class ArtifactResponseDto {
-  constructor(artifact: ArtifactEntity, language: SupportedLanguage = 'vi') {
+  constructor(
+    artifact: ArtifactEntity,
+    language: SupportedLanguage = 'vi',
+    presignedImgUrl?: string,
+  ) {
     this.id = artifact.id;
     this.roomId = artifact.roomId;
     this.roomName =
@@ -16,6 +20,7 @@ export class ArtifactResponseDto {
     this.descriptionEn = artifact.descriptionEn ?? undefined;
     this.orderNo = artifact.orderNo;
     this.imgUrl = artifact.imgUrl ?? undefined;
+    this.presignedImgUrl = presignedImgUrl ?? undefined;
     this.historyDate = artifact.historyDate ?? undefined;
     this.positionX = artifact.positionX ?? undefined;
     this.positionY = artifact.positionY ?? undefined;
@@ -71,6 +76,12 @@ export class ArtifactResponseDto {
     example: 'https://example.com/artifacts/dong-son-bronze-drum.jpg',
   })
   imgUrl?: string;
+
+  @ApiPropertyOptional({
+    description: 'Presigned image URL (temporary) if original is private',
+    example: 'https://...amazonaws.com/IMG_1398.png?X-Amz-...',
+  })
+  presignedImgUrl?: string;
 
   @ApiPropertyOptional({
     description: 'Historical date related to artifact',

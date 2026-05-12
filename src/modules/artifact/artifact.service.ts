@@ -15,6 +15,7 @@ import { RoomEntity } from '../room/entity/room.entity';
 import { DeleteResponseDto } from 'src/core/dto/delete-response.dto';
 import { ArtifactDetailRequestDto } from './dto/artifact-detail-request.dto';
 import { SupportedLanguage } from 'src/core/dto/language-request.dto';
+import { FilesService } from '../files/files.service';
 
 @Injectable()
 export class ArtifactService {
@@ -23,6 +24,7 @@ export class ArtifactService {
     private readonly artifactRepository: Repository<ArtifactEntity>,
     @InjectRepository(RoomEntity)
     private readonly roomRepository: Repository<RoomEntity>,
+    private readonly filesService: FilesService,
   ) {}
 
   async paginate(
@@ -58,8 +60,12 @@ export class ArtifactService {
 
     const [entities, total] = await query.getManyAndCount();
 
+    const items = await Promise.all(
+      entities.map((entity) => this.toDto(entity, language)),
+    );
+
     return new PaginationResponseDto(
-      entities.map((entity) => new ArtifactResponseDto(entity, language)),
+      items,
       total,
       page,
       limit,
@@ -85,7 +91,7 @@ export class ArtifactService {
       throw new DataNotFoundException('Artifact not found');
     }
 
-    return new ArtifactResponseDto(artifact, language);
+    return await this.toDto(artifact, language);
   }
 
   async getRandomArtifacts(language?: string): Promise<ArtifactResponseDto[]> {
@@ -115,8 +121,8 @@ export class ArtifactService {
         (orderMap.get(b.id) ?? Number.MAX_SAFE_INTEGER),
     );
 
-    return entities.map(
-      (entity) => new ArtifactResponseDto(entity, normalizedLanguage),
+    return await Promise.all(
+      entities.map((entity) => this.toDto(entity, normalizedLanguage)),
     );
   }
 
@@ -144,10 +150,7 @@ export class ArtifactService {
         relations: { room: true },
       });
 
-      return new ArtifactResponseDto(
-        artifactWithRoom ?? savedArtifact,
-        language,
-      );
+      return await this.toDto(artifactWithRoom ?? savedArtifact, language);
     } catch (error) {
       this.handlePersistenceError(error);
       throw error;
@@ -182,10 +185,7 @@ export class ArtifactService {
         relations: { room: true },
       });
 
-      return new ArtifactResponseDto(
-        artifactWithRoom ?? updatedArtifact,
-        language,
-      );
+      return await this.toDto(artifactWithRoom ?? updatedArtifact, language);
     } catch (error) {
       this.handlePersistenceError(error);
       throw error;
@@ -214,10 +214,7 @@ export class ArtifactService {
       relations: { room: true },
     });
 
-    return new ArtifactResponseDto(
-      artifactWithRoom ?? updatedArtifact,
-      language,
-    );
+    return await this.toDto(artifactWithRoom ?? updatedArtifact, language);
   }
 
   async delete(requestIdsDto: RequestIdsDto): Promise<DeleteResponseDto> {
@@ -271,5 +268,21 @@ export class ArtifactService {
 
   private normalizeLanguage(language?: string): SupportedLanguage {
     return language === 'en' ? 'en' : 'vi';
+  }
+
+  private async toDto(
+    artifact: ArtifactEntity,
+    language: SupportedLanguage,
+  ): Promise<ArtifactResponseDto> {
+    let presigned: string | undefined;
+    try {
+      presigned = await this.filesService.getPresignedUrlForObject(
+        artifact.imgUrl ?? undefined,
+      );
+    } catch {
+      presigned = undefined;
+    }
+
+    return new ArtifactResponseDto(artifact, language, presigned);
   }
 }

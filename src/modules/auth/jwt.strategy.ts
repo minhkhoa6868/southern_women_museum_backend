@@ -25,6 +25,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     if (!payload.sub || !payload.email) {
       throw new UnauthorizedException('Invalid token payload');
     }
-    return { userId: payload.sub, email: payload.email, isAdmin: payload.isAdmin };
+    return {
+      userId: payload.sub,
+      email: payload.email,
+      isAdmin: payload.isAdmin,
+    };
   }
 }

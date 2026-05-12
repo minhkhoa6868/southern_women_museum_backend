@@ -9,7 +9,10 @@ export class EventResponseDto {
   })
   id!: string;
 
-  @ApiProperty({ description: 'Event title', example: 'Summer Exhibition 2024' })
+  @ApiProperty({
+    description: 'Event title',
+    example: 'Summer Exhibition 2024',
+  })
   title!: string;
 
   @ApiProperty({
@@ -35,10 +38,16 @@ export class EventResponseDto {
   })
   status?: EventStatus;
 
-  @ApiProperty({ description: 'Creation timestamp', example: '2024-01-01T00:00:00.000Z' })
+  @ApiProperty({
+    description: 'Creation timestamp',
+    example: '2024-01-01T00:00:00.000Z',
+  })
   createdAt!: Date;
 
-  @ApiProperty({ description: 'Last update timestamp', example: '2024-01-01T00:00:00.000Z' })
+  @ApiProperty({
+    description: 'Last update timestamp',
+    example: '2024-01-01T00:00:00.000Z',
+  })
   updatedAt?: Date;
 
   constructor(event: Event) {

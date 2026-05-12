@@ -8,6 +8,7 @@ import { RoomModule } from './modules/room/room.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserProfileModule } from './modules/user-profile/user-profile.module';
 import { EventsModule } from './modules/event/event.module';
+import { FilesModule } from './modules/files/files.module';
 import { QuizModule } from './quiz/quiz.module';
 
 @Module({
@@ -17,6 +18,7 @@ import { QuizModule } from './quiz/quiz.module';
     QuizModule,
     HealthModule,
     ArtifactModule,
+    FilesModule,
     RoomModule,
     AuthModule,
     UserProfileModule,

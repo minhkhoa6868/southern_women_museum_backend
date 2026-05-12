@@ -73,6 +73,9 @@ npm install -D @types/passport-jwt
 
 # install config
 npm install @nestjs/config
+
+# install aws
+npm install @aws-sdk/client-s3 @aws-sdk/s3-request-presigner
 ```
 
 ## Deployment

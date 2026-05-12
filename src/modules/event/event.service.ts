@@ -26,7 +26,9 @@ export class EventsService {
   }
 
   async findAll(): Promise<EventResponseDto[]> {
-    const events = await this.eventsRepository.find({ order: { date: 'DESC' } });
+    const events = await this.eventsRepository.find({
+      order: { date: 'DESC' },
+    });
     return events.map((e) => new EventResponseDto(e));
   }
 
@@ -38,17 +40,28 @@ export class EventsService {
     return new EventResponseDto(event);
   }
 
-  async update(id: string, updateEventDto: UpdateEventDto): Promise<EventResponseDto> {
+  async update(
+    id: string,
+    updateEventDto: UpdateEventDto,
+  ): Promise<EventResponseDto> {
     const event = await this.eventsRepository.findOne({ where: { id } });
     if (!event) {
       throw new NotFoundException(`Event with ID ${id} not found`);
     }
     await this.eventsRepository.update(id, {
-      ...(updateEventDto.title !== undefined && { title: updateEventDto.title }),
-      ...(updateEventDto.description !== undefined && { description: updateEventDto.description }),
+      ...(updateEventDto.title !== undefined && {
+        title: updateEventDto.title,
+      }),
+      ...(updateEventDto.description !== undefined && {
+        description: updateEventDto.description,
+      }),
       ...(updateEventDto.date !== undefined && { date: updateEventDto.date }),
-      ...(updateEventDto.imageUrl !== undefined && { imageUrl: updateEventDto.imageUrl }),
-      ...(updateEventDto.status !== undefined && { status: updateEventDto.status }),
+      ...(updateEventDto.imageUrl !== undefined && {
+        imageUrl: updateEventDto.imageUrl,
+      }),
+      ...(updateEventDto.status !== undefined && {
+        status: updateEventDto.status,
+      }),
     });
     return this.findOne(id);
   }
