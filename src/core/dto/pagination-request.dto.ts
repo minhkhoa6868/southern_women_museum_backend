@@ -1,8 +1,27 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
 import { Type } from 'class-transformer';
-import { IsInt, IsOptional, Max, Min, ValidateNested } from 'class-validator';
+import {
+  IsIn,
+  IsInt,
+  IsOptional,
+  Max,
+  Min,
+  ValidateNested,
+} from 'class-validator';
+
+const supportedLanguages = ['vi', 'en'] as const;
 
 export class PaginationRequestDto<TFilters = Record<string, any>> {
+  @ApiPropertyOptional({
+    description: 'Requested response language',
+    example: 'vi',
+    enum: supportedLanguages,
+    default: 'vi',
+  })
+  @IsOptional()
+  @IsIn(supportedLanguages)
+  language?: (typeof supportedLanguages)[number];
+
   @ApiPropertyOptional({
     description: 'Page number (starts at 1)',
     example: 1,

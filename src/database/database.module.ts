@@ -21,12 +21,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
           keepConnectionAlive: true,
           retryAttempts: 1,
           retryDelay: 1000,
+          // Supabase requires rejectUnauthorized: false for its managed TLS certificates
           ssl: {
             rejectUnauthorized: false,
           },
           extra: {
-            connectionTimeoutMillis: 5000,
-            idleTimeoutMillis: 5000,
+            connectionTimeoutMillis: 30000,
+            idleTimeoutMillis: 600000,
           },
         };
       },
