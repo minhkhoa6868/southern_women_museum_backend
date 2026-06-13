@@ -21,9 +21,32 @@
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Project Overview
+This repository implements the **backend** for the Southern Women Museum application using **NestJS** (TypeScript). It provides a RESTful API with JWT authentication, role‑based access control, file handling via AWS S3, and a PostgreSQL database managed through **TypeORM**. The codebase follows a modular architecture, separating concerns into distinct feature modules (auth, events, quiz, artifacts, rooms, user‑profile, etc.).
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+For a detailed breakdown of the system architecture, design decisions, and implementation logic, please refer to [Our Group Report](report.pdf).
+
+## Technology Stack
+| Layer | Technology |
+|-------|------------|
+| **Framework** | NestJS 11 (TypeScript) |
+| **Database** | PostgreSQL (via TypeORM) |
+| **Authentication** | JWT + Passport |
+| **Authorization** | `AdminGuard` (core/guards) |
+| **File Storage** | AWS S3 (`@aws-sdk/client-s3`) |
+| **Configuration** | `@nestjs/config` (environment variables) |
+| **API Docs** | Swagger (`@nestjs/swagger`, `swagger-ui-express`) |
+| **Testing** | Jest + Supertest |
+| **Lint/Format** | ESLint, Prettier |
+
+
+## Prerequisites
+- **Node.js** (>= 20) and **npm**
+- **PostgreSQL** database instance
+- **AWS credentials** with access to an S3 bucket (for file uploads)
+- **Git** (to clone the repo)
+
+---
 
 ## Project setup
 
